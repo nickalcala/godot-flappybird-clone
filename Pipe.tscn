@@ -1,0 +1,47 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Pipe.gd" type="Script" id=1]
+[ext_resource path="res://art/pipe.png" type="Texture" id=2]
+
+[sub_resource type="RectangleShape2D" id=1]
+
+custom_solver_bias = 0.0
+extents = Vector2( 39.6856, 240.085 )
+
+[node name="Pipe" type="KinematicBody2D"]
+
+input_pickable = false
+collision_layer = 1
+collision_mask = 1
+collision/safe_margin = 0.08
+script = ExtResource( 1 )
+_sections_unfolded = [ "Transform", "Visibility" ]
+
+[node name="Sprite" type="Sprite" parent="." index="0"]
+
+position = Vector2( 40.0577, 239.873 )
+scale = Vector2( 3, 3 )
+texture = ExtResource( 2 )
+_sections_unfolded = [ "Animation", "Material", "Offset", "Region", "Transform", "Visibility", "Z Index" ]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." index="1"]
+
+position = Vector2( 40.0577, 239.873 )
+scale = Vector2( 1, 1 )
+shape = SubResource( 1 )
+_sections_unfolded = [ "Material", "Pause", "Transform", "Visibility", "Z Index" ]
+
+[node name="VisibilityEnabler2D" type="VisibilityEnabler2D" parent="." index="2"]
+
+position = Vector2( 45.3721, 236.788 )
+rect = Rect2( -10, -10, 20, 20 )
+pause_animations = true
+freeze_bodies = true
+pause_particles = true
+pause_animated_sprites = true
+process_parent = false
+physics_process_parent = false
+
+[connection signal="screen_exited" from="VisibilityEnabler2D" to="." method="_on_VisibilityEnabler2D_screen_exited"]
+
+
