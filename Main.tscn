@@ -1,10 +1,11 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Main.gd" type="Script" id=1]
 [ext_resource path="res://Pipe.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Floor.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Bird.tscn" type="PackedScene" id=4]
 [ext_resource path="res://art/bg.png" type="Texture" id=5]
+[ext_resource path="res://HUD.tscn" type="PackedScene" id=6]
 
 [sub_resource type="DynamicFontData" id=1]
 
@@ -32,7 +33,6 @@ Floor = ExtResource( 3 )
 [node name="World" type="Node2D" parent="." index="0"]
 
 editor/display_folded = true
-_sections_unfolded = [ "Z Index" ]
 
 [node name="Bird" parent="World" index="0" instance=ExtResource( 4 )]
 
@@ -63,15 +63,7 @@ autostart = false
 
 position = Vector2( 82, 290 )
 
-[node name="StartTimer" type="Timer" parent="." index="3"]
-
-process_mode = 1
-wait_time = 1.0
-one_shot = true
-autostart = true
-_sections_unfolded = [ "Pause" ]
-
-[node name="Score" type="Label" parent="." index="4"]
+[node name="Score" type="Label" parent="." index="3"]
 
 anchor_left = 0.5
 anchor_top = 0.0
@@ -95,10 +87,21 @@ lines_skipped = 0
 max_lines_visible = -1
 _sections_unfolded = [ "Anchor", "Focus", "Grow Direction", "Hint", "Margin", "Mouse", "Pause", "Rect", "Size Flags", "Theme", "Visibility", "custom_colors", "custom_constants", "custom_fonts", "custom_styles" ]
 
+[node name="HUD" parent="." index="4" instance=ExtResource( 6 )]
+
+[node name="GameOver" type="Timer" parent="." index="5"]
+
+process_mode = 1
+wait_time = 1.0
+one_shot = true
+autostart = false
+
 [connection signal="crash" from="World/Bird" to="." method="_on_Bird_crash"]
 
 [connection signal="timeout" from="GameTimer" to="." method="_spawn_pipe"]
 
-[connection signal="timeout" from="StartTimer" to="." method="_on_StartTimer_timeout"]
+[connection signal="start" from="HUD" to="." method="_on_HUD_start"]
+
+[connection signal="timeout" from="GameOver" to="." method="_on_GameOver_timeout"]
 
 

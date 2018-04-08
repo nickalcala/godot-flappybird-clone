@@ -17,7 +17,7 @@ func _process(delta):
 	if Input.is_key_pressed(KEY_R):
 		start_game()
 
-	if !pipes.empty() && !$World/Bird.isCrashed && !pipes[0][0].passed && pipes[0][0].position.x < $Position2D.position.x:
+	if !pipes.empty() && $World/Bird.birdState != $World/Bird.BirdState.CRASHED && !pipes[0][0].passed && pipes[0][0].position.x < $Position2D.position.x:
 		pipes[0][0].passed = true
 		score += 1
 		$Score.text = str(score)
@@ -28,9 +28,7 @@ func start_game():
 		p[1].queue_free()
 	pipes.clear()
 
-	$World/Bird.ySpeed = 0
-	$World/Bird.position = $Position2D.position
-	$World/Bird.isCrashed = false
+	$World/Bird.reset($Position2D.position)
 	score = 0
 	$Score.text = str(score)
 	$GameTimer.start()
@@ -71,7 +69,11 @@ func _spawn_pipe():
 func _on_Bird_crash():
 	pass
 	$GameTimer.stop()
-	$StartTimer.start()
+	$GameOver.start()
 
-func _on_StartTimer_timeout():
+func _on_HUD_start():
+	$HUD.hide()
 	start_game()
+
+func _on_GameOver_timeout():
+	$HUD.show()
