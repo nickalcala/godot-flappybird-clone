@@ -1,10 +1,22 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Main.gd" type="Script" id=1]
 [ext_resource path="res://Pipe.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Floor.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Bird.tscn" type="PackedScene" id=4]
 [ext_resource path="res://art/bg.png" type="Texture" id=5]
+
+[sub_resource type="DynamicFontData" id=1]
+
+font_path = "res://fonts/Xolonium-Regular.ttf"
+
+[sub_resource type="DynamicFont" id=2]
+
+size = 48
+use_mipmaps = false
+use_filter = false
+font_data = SubResource( 1 )
+_sections_unfolded = [ "Extra Spacing", "Font", "Settings" ]
 
 [node name="Main" type="Node2D" index="0"]
 
@@ -17,35 +29,76 @@ __meta__ = {
 Pipe = ExtResource( 2 )
 Floor = ExtResource( 3 )
 
-[node name="Bird" parent="." index="0" instance=ExtResource( 4 )]
+[node name="World" type="Node2D" parent="." index="0"]
+
+editor/display_folded = true
+_sections_unfolded = [ "Z Index" ]
+
+[node name="Bird" parent="World" index="0" instance=ExtResource( 4 )]
 
 position = Vector2( 72, 108 )
-z_index = 1
+z_index = 2
 _sections_unfolded = [ "Transform", "Visibility", "Z Index" ]
 
-[node name="Timer" type="Timer" parent="." index="1"]
+[node name="Background" type="Sprite" parent="World" index="1"]
 
-process_mode = 1
-wait_time = 2.5
-one_shot = false
-autostart = true
-
-[node name="Background" type="Sprite" parent="." index="2"]
-
+position = Vector2( 0, -168 )
 scale = Vector2( 3, 3 )
 texture = ExtResource( 5 )
 centered = false
 _sections_unfolded = [ "Animation", "Offset", "Region", "Transform", "Visibility" ]
-__meta__ = {
-"_edit_lock_": true
-}
 
-[node name="Position2D" type="Position2D" parent="." index="3"]
+[node name="Floor" parent="World" index="2" instance=ExtResource( 3 )]
+
+position = Vector2( 0, 600 )
+
+[node name="GameTimer" type="Timer" parent="." index="1"]
+
+process_mode = 1
+wait_time = 2.5
+one_shot = false
+autostart = false
+
+[node name="Position2D" type="Position2D" parent="." index="2"]
 
 position = Vector2( 82, 290 )
 
-[connection signal="crash" from="Bird" to="." method="_on_Bird_crash"]
+[node name="StartTimer" type="Timer" parent="." index="3"]
 
-[connection signal="timeout" from="Timer" to="." method="_spawn_pipe"]
+process_mode = 1
+wait_time = 1.0
+one_shot = true
+autostart = true
+_sections_unfolded = [ "Pause" ]
+
+[node name="Score" type="Label" parent="." index="4"]
+
+anchor_left = 0.5
+anchor_top = 0.0
+anchor_right = 0.5
+anchor_bottom = 0.0
+margin_left = 149.0
+margin_right = 236.0
+margin_bottom = 72.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = SubResource( 2 )
+text = "0"
+align = 1
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "Anchor", "Focus", "Grow Direction", "Hint", "Margin", "Mouse", "Pause", "Rect", "Size Flags", "Theme", "Visibility", "custom_colors", "custom_constants", "custom_fonts", "custom_styles" ]
+
+[connection signal="crash" from="World/Bird" to="." method="_on_Bird_crash"]
+
+[connection signal="timeout" from="GameTimer" to="." method="_spawn_pipe"]
+
+[connection signal="timeout" from="StartTimer" to="." method="_on_StartTimer_timeout"]
 
 

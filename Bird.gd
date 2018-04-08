@@ -2,11 +2,12 @@ extends Area2D
 
 signal crash
 
-const DIVE_ACCELERATION = 0.7
-const FLY_ACCELERATION = -0.25
+const DIVE_ACCELERATION = 10
+const FLY_ACCELERATION = -4
 
 var ySpeed = 0
 var isCrashed = false
+var maxYPos = 0
 
 func _ready():
 	$AnimatedSprite.play()
@@ -20,7 +21,9 @@ func _process(delta):
 		fly(delta)
 
 	setBirdAngle(delta)
-	print("Bird = ", isCrashed)
+
+func get_height():
+	return 12 * $AnimatedSprite.scale.y
 
 func fly(delta):
 	ySpeed = FLY_ACCELERATION
@@ -28,7 +31,7 @@ func fly(delta):
 	setBirdY(position.y + ySpeed)
 
 func setBirdY(y):
-	position.y = clamp(y, 0, get_viewport_rect().size.y)
+	position.y = clamp(y, 0, maxYPos)
 
 func setBirdAngle(delta):
 	if !isCrashed:

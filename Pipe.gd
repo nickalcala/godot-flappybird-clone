@@ -2,11 +2,10 @@ extends KinematicBody2D
 
 const PIPE_ACCELERATION = 80
 
+var passed = false
+
 func _process(delta):
 	position.x -= PIPE_ACCELERATION * delta
-
-func _on_VisibilityEnabler2D_screen_exited():
-	queue_free()
 
 func set_flip(flip):
 	$Sprite.flip_v = flip

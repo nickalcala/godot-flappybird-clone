@@ -17,7 +17,7 @@ animations = [ {
 [sub_resource type="CircleShape2D" id=2]
 
 custom_solver_bias = 0.0
-radius = 18.8256
+radius = 18.806
 
 [node name="Bird" type="Area2D"]
 

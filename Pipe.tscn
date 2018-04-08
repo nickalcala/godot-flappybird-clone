@@ -15,7 +15,7 @@ collision_layer = 1
 collision_mask = 1
 collision/safe_margin = 0.08
 script = ExtResource( 1 )
-_sections_unfolded = [ "Transform", "Visibility" ]
+_sections_unfolded = [ "Transform", "Visibility", "Z Index" ]
 
 [node name="Sprite" type="Sprite" parent="." index="0"]
 
@@ -27,21 +27,7 @@ _sections_unfolded = [ "Animation", "Material", "Offset", "Region", "Transform",
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." index="1"]
 
 position = Vector2( 40.0577, 239.873 )
-scale = Vector2( 1, 1 )
 shape = SubResource( 1 )
 _sections_unfolded = [ "Material", "Pause", "Transform", "Visibility", "Z Index" ]
-
-[node name="VisibilityEnabler2D" type="VisibilityEnabler2D" parent="." index="2"]
-
-position = Vector2( 45.3721, 236.788 )
-rect = Rect2( -10, -10, 20, 20 )
-pause_animations = true
-freeze_bodies = true
-pause_particles = true
-pause_animated_sprites = true
-process_parent = false
-physics_process_parent = false
-
-[connection signal="screen_exited" from="VisibilityEnabler2D" to="." method="_on_VisibilityEnabler2D_screen_exited"]
 
 
